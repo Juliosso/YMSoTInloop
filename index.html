@@ -12,10 +12,10 @@
             color: #fff; overflow: hidden;
         }
 
-        /* Solide bruine achtergrond ipv afbeelding */
+        /* Chique bruine achtergrond voor betere werking op GitHub */
         .background {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #2b1d0e; /* De YM Bruine kleur */
+            background-color: #2b1d0e; 
             z-index: -1;
         }
 
@@ -25,24 +25,26 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 50px;
-            width: 70vw;
+            width: 75vw;
             text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .logo-area h1 {
-            font-size: 50px; letter-spacing: 8px; margin: 0;
+            font-size: 40px; letter-spacing: 6px; margin: 0;
             color: #d4c4a8; text-transform: uppercase;
         }
 
         .divider {
             height: 2px; width: 100px; background: #d4c4a8;
-            margin: 30px auto;
+            margin: 25px auto;
         }
 
         .event-title {
-            font-size: 38px; margin-bottom: 40px; font-weight: 300;
+            font-size: 32px; margin-bottom: 40px; font-weight: 300; line-height: 1.4;
         }
+
+        .event-title strong { color: #fff; display: block; margin-top: 10px; font-size: 36px; }
 
         .info-grid {
             display: grid; grid-template-columns: 1fr 1fr;
@@ -51,15 +53,23 @@
 
         .info-item {
             padding: 20px; background: rgba(255,255,255,0.03); border-radius: 10px;
-            transition: all 0.5s ease;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.8s ease;
         }
 
         .info-item label {
             display: block; color: #d4c4a8; text-transform: uppercase;
-            font-size: 14px; letter-spacing: 2px; margin-bottom: 10px;
+            font-size: 13px; letter-spacing: 2px; margin-bottom: 10px;
         }
 
-        .info-item span { font-size: 24px; font-weight: 500; transition: color 0.5s ease; }
+        .info-item span { font-size: 22px; font-weight: 500; }
+
+        /* Stijl voor wanneer de lezing is gestart */
+        .status-begonnen {
+            background: rgba(255, 69, 58, 0.1);
+            border: 1px solid rgba(255, 69, 58, 0.3);
+        }
+        .status-begonnen span { color: #ff453a; }
 
         .cta-area {
             display: flex; align-items: center; justify-content: center;
@@ -67,19 +77,12 @@
         }
 
         .qr-placeholder {
-            width: 150px; height: 150px; background: #fff;
+            width: 130px; height: 130px; background: #fff;
             padding: 10px; border-radius: 10px;
         }
 
-        .cta-text { text-align: left; font-size: 18px; line-height: 1.5; }
+        .cta-text { text-align: left; font-size: 17px; line-height: 1.5; color: #ccc; }
         .highlight { color: #d4c4a8; font-weight: bold; }
-        
-        /* Stijl voor wanneer het begonnen is */
-        .status-begonnen { 
-            border: 1px solid rgba(255, 69, 58, 0.5);
-            background: rgba(255, 69, 58, 0.1);
-        }
-        .status-begonnen span { color: #ff453a; } 
     </style>
 </head>
 <body>
@@ -89,20 +92,22 @@
     <div class="welcome-card">
         <div class="logo-area">
             <h1>Yulfono Mshihoyo</h1>
-            <img src="YM_DONE.jpg" alt="YM Logo" style="height: 120px; width: auto; margin-bottom: 10px;">
+            <img src="YM_DONE.jpg" alt="YM Logo" style="height: 100px; width: auto; margin-top: 15px;">
             <div class="divider"></div>
         </div>
 
-        <div class="event-title">Welkom bij de lezing: <br><strong>The Shroud of Turin</strong></div>
+        <div class="event-title">
+            <strong>The Shroud of Turin: <br></strong> Wat vertelt de Lijkwade over de kruisiging van onze Heer Jezus Christus?
+        </div>
 
         <div class="info-grid">
             <div class="info-item" id="status-container">
-                <label>Status</label>
+                <label>Huidige Status</label>
                 <span id="status-text">De inloop is begonnen</span>
             </div>
             <div class="info-item">
-                <label>Start Programma</label>
-                <span>19:00 uur (Stipt)</span>
+                <label>Programma</label>
+                <span>19:00 - 21:00 uur</span>
             </div>
         </div>
 
@@ -111,29 +116,25 @@
                 <img src="YMK_QR.png" alt="Scan Mij" style="width:100%; height:100%;">
             </div>
             <div class="cta-text">
-                Scan de code om lid te worden van het <span class="highlight">Yulfono Mshihoyo Kanaal</span>.<br>
-                Mis niets en neem deel aan <span class="highlight">unieke content</span>.
+                Scan de code en word lid van het <span class="highlight">YM Kanaal</span>.<br>
+                Mis niets van de onthulling en <span class="highlight">unieke content</span>.
             </div>
         </div>
     </div>
 
-<script>
-    // CONFIGURATIE:
-    const secondenTotStart = 900; // 15 min (900 seconden)
+    <script>
+        // CONFIGURATIE: Na 900 seconden (15 min) verandert de status.
+        const secondenTotStart = 900; 
 
-    setTimeout(function() {
-        const statusBox = document.getElementById('status-container');
-        const statusText = document.getElementById('status-text');
+        setTimeout(function() {
+            const statusBox = document.getElementById('status-container');
+            const statusText = document.getElementById('status-text');
 
-        // Wijzig de tekst
-        statusText.innerText = "De lezing is begonnen!";
-
-        // Pas de visuele stijl aan (rood/opvallend)
-        statusBox.classList.add('status-begonnen');
-        
-        console.log("Status gewijzigd naar Begonnen");
-    }, secondenTotStart * 1000);
-</script>
+            statusText.innerText = "De lezing is begonnen";
+            statusBox.classList.add('status-begonnen');
+            
+        }, secondenTotStart * 1000);
+    </script>
 
 </body>
 </html>
