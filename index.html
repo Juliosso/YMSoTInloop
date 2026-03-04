@@ -12,13 +12,11 @@
             color: #fff; overflow: hidden;
         }
 
-        /* Gebruik de strakke achtergrond die we eerder besproken hebben */
+        /* Solide bruine achtergrond ipv afbeelding */
         .background {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
-                        url('ShroudFotoP.png'); /* Of je flyer achtergrond */
-            background-size: cover; background-position: center;
-            filter: blur(5px); z-index: -1;
+            background-color: #2b1d0e; /* De YM Bruine kleur */
+            z-index: -1;
         }
 
         .welcome-card {
@@ -53,6 +51,7 @@
 
         .info-item {
             padding: 20px; background: rgba(255,255,255,0.03); border-radius: 10px;
+            transition: all 0.5s ease;
         }
 
         .info-item label {
@@ -75,8 +74,12 @@
         .cta-text { text-align: left; font-size: 18px; line-height: 1.5; }
         .highlight { color: #d4c4a8; font-weight: bold; }
         
-        /* Optionele stijl voor wanneer het begonnen is */
-        .status-active { color: #ff453a; } 
+        /* Stijl voor wanneer het begonnen is */
+        .status-begonnen { 
+            border: 1px solid rgba(255, 69, 58, 0.5);
+            background: rgba(255, 69, 58, 0.1);
+        }
+        .status-begonnen span { color: #ff453a; } 
     </style>
 </head>
 <body>
@@ -93,7 +96,7 @@
         <div class="event-title">Welkom bij de lezing: <br><strong>The Shroud of Turin</strong></div>
 
         <div class="info-grid">
-            <div class="info-item">
+            <div class="info-item" id="status-container">
                 <label>Status</label>
                 <span id="status-text">De inloop is begonnen</span>
             </div>
@@ -116,8 +119,7 @@
 
 <script>
     // CONFIGURATIE:
-    // 1800 staat voor 30 minuten (60 sec * 30 min)
-    const secondenTotStart = 900; //15 min
+    const secondenTotStart = 900; // 15 min (900 seconden)
 
     setTimeout(function() {
         const statusBox = document.getElementById('status-container');
@@ -129,7 +131,7 @@
         // Pas de visuele stijl aan (rood/opvallend)
         statusBox.classList.add('status-begonnen');
         
-        console.log("Status gewijzigd naar Begonnen na 30 minuten");
+        console.log("Status gewijzigd naar Begonnen");
     }, secondenTotStart * 1000);
 </script>
 
