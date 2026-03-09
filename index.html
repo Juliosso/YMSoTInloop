@@ -2,97 +2,124 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>YM Welkomstbord - Ingang</title>
     <style>
         body {
-            margin: 0; padding: 0; background-color: #030303; height: 100vh;
+            margin: 0; padding: 0; background-color: #050505; height: 100vh; width: 100vw;
             display: flex; justify-content: center; align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff; overflow: hidden;
+            position: relative; 
+            touch-action: manipulation; 
+            -webkit-user-select: none; 
+            user-select: none;
         }
 
-        /* Chique bruine achtergrond voor betere werking op GitHub */
-        .background {
+        /* --- DE BEWEGENDE STERREN ACHTERGROND --- */
+        .stars-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #2b1d0e; 
-            z-index: -1;
+            z-index: -2;
+            background: radial-gradient(circle at bottom center, #2b1d0e 0%, #050505 80%);
+            overflow: hidden;
         }
 
+        .stars, .stars2, .stars3 {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%; display: block; background: transparent;
+        }
+
+        .stars {
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 200px 200px;
+            animation: animateStars 50s linear infinite; opacity: 0.5;
+        }
+
+        .stars2 {
+            background-image: 
+                radial-gradient(2px 2px at 30px 50px, #fff, rgba(0,0,0,0)),
+                radial-gradient(1px 1px at 70px 90px, #ccc, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 110px 130px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 300px 300px;
+            animation: animateStars 100s linear infinite; opacity: 0.7;
+        }
+        
+        .stars3 {
+            background-image: 
+                radial-gradient(3px 3px at 50px 100px, #fff, rgba(0,0,0,0)),
+                radial-gradient(2px 2px at 150px 200px, #ddd, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 400px 400px;
+            animation: animateStars 150s linear infinite; 
+        }
+
+        @keyframes animateStars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-1000px); }
+        }
+
+        .overlay-dark {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3); z-index: -1;
+        }
+
+        /* --- DE KAART EN INHOUD --- */
         .welcome-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 50px;
-            width: 75vw;
-            text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            background: rgba(20, 15, 10, 0.6); 
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+            padding: 50px; width: 75vw; text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7); z-index: 10;
         }
 
-        .logo-area h1 {
-            font-size: 40px; letter-spacing: 6px; margin: 0;
-            color: #d4c4a8; text-transform: uppercase;
-        }
-
-        .divider {
-            height: 2px; width: 100px; background: #d4c4a8;
-            margin: 25px auto;
-        }
-
-        .event-title {
-            font-size: 32px; margin-bottom: 40px; font-weight: 300; line-height: 1.4;
-        }
-
+        .logo-area h1 { font-size: 40px; letter-spacing: 6px; margin: 0; color: #d4c4a8; text-transform: uppercase; }
+        .divider { height: 2px; width: 100px; background: #d4c4a8; margin: 25px auto; }
+        .event-title { font-size: 32px; margin-bottom: 40px; font-weight: 300; line-height: 1.4; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .event-title strong { color: #fff; display: block; margin-top: 10px; font-size: 36px; }
 
-        .info-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 30px; margin-bottom: 50px; text-align: left;
-        }
-
-        .info-item {
-            padding: 20px; background: rgba(255,255,255,0.03); border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.8s ease;
-        }
-
-        .info-item label {
-            display: block; color: #d4c4a8; text-transform: uppercase;
-            font-size: 13px; letter-spacing: 2px; margin-bottom: 10px;
-        }
-
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 50px; text-align: left; }
+        .info-item { padding: 20px; background: rgba(255,255,255,0.03); border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); transition: all 0.8s ease; }
+        .info-item label { display: block; color: #d4c4a8; text-transform: uppercase; font-size: 13px; letter-spacing: 2px; margin-bottom: 10px; }
         .info-item span { font-size: 22px; font-weight: 500; }
 
-        /* Stijl voor wanneer de lezing is gestart */
-        .status-begonnen {
-            background: rgba(255, 69, 58, 0.1);
-            border: 1px solid rgba(255, 69, 58, 0.3);
-        }
+        .status-begonnen { background: rgba(255, 69, 58, 0.1); border: 1px solid rgba(255, 69, 58, 0.3); }
         .status-begonnen span { color: #ff453a; }
 
-        .cta-area {
-            display: flex; align-items: center; justify-content: center;
-            gap: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px;
-        }
-
-        .qr-placeholder {
-            width: 130px; height: 130px; background: #fff;
-            padding: 10px; border-radius: 10px;
-        }
-
+        .cta-area { display: flex; align-items: center; justify-content: center; gap: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 40px; }
+        .qr-placeholder { width: 130px; height: 130px; background: #fff; padding: 10px; border-radius: 10px; }
         .cta-text { text-align: left; font-size: 17px; line-height: 1.5; color: #ccc; }
         .highlight { color: #d4c4a8; font-weight: bold; }
+
+        /* --- Geheime Beheerder functionaliteit --- */
+        .geheime-knop { position: absolute; top: 0; right: 0; width: 150px; height: 150px; z-index: 999; cursor: default; }
+        .admin-menu { display: none; position: absolute; top: 20px; right: 20px; background-color: rgba(30, 41, 59, 0.95); padding: 25px; border-radius: 16px; box-shadow: 0 15px 40px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); z-index: 1000; min-width: 250px; backdrop-filter: blur(10px);}
+        .admin-btn { background-color: #334155; color: #f8fafc; border: none; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; margin-bottom: 12px; display: block; width: 100%; transition: background 0.2s;}
+        .admin-btn:hover { background-color: #475569; }
+        .admin-btn.geel { background-color: #d97706; margin-bottom: 20px; } 
+        .admin-btn.geel:hover { background-color: #b45309; }
+
     </style>
 </head>
-<body>
+<body onclick="startFullscreen()" oncontextmenu="return false;">
 
-    <div class="background"></div>
+    <div class="geheime-knop" onclick="checkGeheimeKlik(event)"></div>
+
+    <div class="stars-container">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+    </div>
+    <div class="overlay-dark"></div>
 
     <div class="welcome-card">
         <div class="logo-area">
             <h1>Yulfono Mshihoyo - Welkom!</h1>
-            <img src="YulfonoMshihoyo.jpg" alt="YM Logo" style="height: 100px; width: auto; margin-top: 15px;">
+            <img src="BijbelkaartYMK.jpg" alt="YM Logo" style="height: 100px; width: auto; margin-top: 15px;">
             <div class="divider"></div>
         </div>
 
@@ -116,13 +143,68 @@
                 <img src="YMK_QR.png" alt="Scan Mij" style="width:100%; height:100%;">
             </div>
             <div class="cta-text">
-                Scan de code en word lid van het <span class="highlight">Yulfono Mshihoyo Kanaal</span>.<br>
-                Mis niets van de onthulling en <span class="highlight">unieke content</span>.
+                Scan de code en word lid van het <span class="highlight">Yulfono Mshihoyo Kanaal</span>!<br>
+                Mis niets van de onthulling en <span class="highlight">unieke christelijke content</span>.
             </div>
         </div>
     </div>
 
+    <div class="admin-menu" id="admin-menu">
+        <strong style="display: block; margin-bottom: 20px; color: #d4c4a8; font-size: 20px; font-weight: 400; text-transform: uppercase;">Beheerdersmenu</strong>
+        
+        <button class="admin-btn geel" id="fullscreen-btn" onclick="toggleFullscreen()">🔲 Uit Fullscreen gaan</button>
+        <button class="admin-btn" onclick="sluitAdmin()">❌ Sluit Paneel</button>
+    </div>
+
     <script>
+        // --- Fullscreen & Admin Logica ---
+        let hasStartedFullscreen = false;
+
+        function startFullscreen() {
+            if (!hasStartedFullscreen) {
+                let elem = document.documentElement;
+                if (elem.requestFullscreen) { elem.requestFullscreen(); }
+                else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); } // Safari
+                else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); } // IE11
+                hasStartedFullscreen = true;
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                let elem = document.documentElement;
+                if (elem.requestFullscreen) { elem.requestFullscreen(); }
+                else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
+                document.getElementById('fullscreen-btn').innerText = "🔲 Uit Fullscreen gaan";
+            } else {
+                if (document.exitFullscreen) { document.exitFullscreen(); }
+                else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+                document.getElementById('fullscreen-btn').innerText = "🔲 In Fullscreen gaan";
+                hasStartedFullscreen = false; 
+            }
+        }
+
+        let klikTeller = 0;
+        let klikTimer;
+
+        function checkGeheimeKlik(event) {
+            event.stopPropagation(); 
+            klikTeller++;
+            clearTimeout(klikTimer);
+            klikTimer = setTimeout(() => { klikTeller = 0; }, 2000);
+
+            if (klikTeller >= 5) {
+                klikTeller = 0; 
+                let pin = prompt("Pincode (Beheer):");
+                if (pin === "0000") {
+                    document.getElementById('admin-menu').style.display = 'block';
+                }
+            }
+        }
+
+        function sluitAdmin() { document.getElementById('admin-menu').style.display = 'none'; }
+
+        // --- Status Timer Logica ---
         // CONFIGURATIE: Na 900 seconden (15 min) verandert de status.
         const secondenTotStart = 900; 
 
@@ -138,4 +220,3 @@
 
 </body>
 </html>
-
