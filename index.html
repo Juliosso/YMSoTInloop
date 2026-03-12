@@ -6,7 +6,9 @@
     <title>YM Welkomstbord - Ingang</title>
     <style>
         body {
-            margin: 0; padding: 0; background-color: #050505; height: 100vh; width: 100vw;
+            margin: 0; padding: 0; height: 100vh; width: 100vw;
+            /* De donkere sfeer-achtergrond is nu hier naartoe verplaatst */
+            background: radial-gradient(circle at bottom center, #2b1d0e 0%, #050505 80%);
             display: flex; justify-content: center; align-items: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #fff; overflow: hidden;
@@ -16,51 +18,24 @@
             user-select: none;
         }
 
-        /* --- DE BEWEGENDE STERREN ACHTERGROND --- */
-        .stars-container {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            background: radial-gradient(circle at bottom center, #2b1d0e 0%, #050505 80%);
-            overflow: hidden;
-        }
-
-        .stars, .stars2, .stars3 {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            width: 100%; height: 100%; display: block; background: transparent;
-        }
-
-        .stars {
-            background-image: 
-                radial-gradient(1px 1px at 20px 30px, #eee, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 50px 160px, #ddd, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 130px 80px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 160px 120px, #ddd, rgba(0,0,0,0));
-            background-repeat: repeat; background-size: 200px 200px;
-            animation: animateStars 50s linear infinite; opacity: 0.5;
-        }
-
-        .stars2 {
-            background-image: 
-                radial-gradient(2px 2px at 30px 50px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 70px 90px, #ccc, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 110px 130px, #fff, rgba(0,0,0,0));
-            background-repeat: repeat; background-size: 300px 300px;
-            animation: animateStars 100s linear infinite; opacity: 0.7;
-        }
+        /* --- NIEUW: De Kruisjes Achtergrond --- */
+        .particles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
         
-        .stars3 {
-            background-image: 
-                radial-gradient(3px 3px at 50px 100px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 150px 200px, #ddd, rgba(0,0,0,0));
-            background-repeat: repeat; background-size: 400px 400px;
-            animation: animateStars 150s linear infinite; 
+        .particle-cross {
+            position: absolute; 
+            color: rgba(212, 196, 168, 0.4); /* Subtiele goud/crème kleur */
+            font-family: 'Times New Roman', Times, serif; 
+            opacity: 0;
+            user-select: none;
+            /* Animatie voor faden en lichtjes zweven */
+            animation: fadeCross var(--anim-duration) infinite ease-in-out;
+            animation-delay: var(--anim-delay);
         }
 
-        @keyframes animateStars {
-            from { transform: translateY(0); }
-            to { transform: translateY(-1000px); }
+        @keyframes fadeCross {
+            0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+            50% { opacity: 1; transform: scale(1) translateY(-10px); text-shadow: 0 0 15px rgba(212, 196, 168, 0.6); }
+            100% { opacity: 0; transform: scale(1.2) translateY(-30px); }
         }
 
         .overlay-dark {
@@ -109,11 +84,7 @@
 
     <div class="geheime-knop" onclick="checkGeheimeKlik(event)"></div>
 
-    <div class="stars-container">
-        <div class="stars"></div>
-        <div class="stars2"></div>
-        <div class="stars3"></div>
-    </div>
+    <div class="particles" id="particles"></div>
     <div class="overlay-dark"></div>
 
     <div class="welcome-card">
@@ -157,6 +128,30 @@
     </div>
 
     <script>
+        // --- JS: Genereer fading kruisjes ---
+        const container = document.getElementById('particles');
+        const numCrosses = 70; // Pas dit getal aan voor meer of minder kruisjes
+
+        for(let i = 0; i < numCrosses; i++) {
+            let cross = document.createElement('div');
+            cross.className = 'particle-cross';
+            cross.innerText = '✝'; 
+            
+            cross.style.left = Math.random() * 100 + 'vw';
+            cross.style.top = Math.random() * 100 + 'vh';
+            
+            const fontSize = Math.floor(Math.random() * 20) + 16;
+            cross.style.fontSize = fontSize + 'px';
+            
+            const duration = (Math.random() * 6 + 6) + 's';
+            cross.style.setProperty('--anim-duration', duration);
+            
+            const delay = (Math.random() * 10) + 's';
+            cross.style.setProperty('--anim-delay', delay);
+            
+            container.appendChild(cross);
+        }
+
         // --- Fullscreen & Admin Logica ---
         let hasStartedFullscreen = false;
 
@@ -205,7 +200,6 @@
         function sluitAdmin() { document.getElementById('admin-menu').style.display = 'none'; }
 
         // --- Status Timer Logica ---
-        // CONFIGURATIE: Na 900 seconden (15 min) verandert de status.
         const secondenTotStart = 1800; 
 
         setTimeout(function() {
@@ -217,6 +211,5 @@
             
         }, secondenTotStart * 1000);
     </script>
-
 </body>
 </html>
